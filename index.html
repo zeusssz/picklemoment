@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tickle my pickle</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000000;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.CylinderGeometry(0.5, 0.5, 1.5, 32);
+
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('https://t3.ftcdn.net/jpg/01/85/45/76/360_F_185457682_Y3uzfmeHXUronSQ2WgnChbKelNWMxghL.jpg');
+
+        const material = new THREE.MeshPhongMaterial({ map: texture });
+
+        const pickle = new THREE.Mesh(geometry, material);
+        scene.add(pickle);
+
+        camera.position.z = 5;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(0, 1, 1);
+        scene.add(directionalLight);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            pickle.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
